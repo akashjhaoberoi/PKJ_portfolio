@@ -39,11 +39,24 @@ export function Contact({ profile, onSendMessage }: ContactProps) {
     setError(null);
 
     try {
-      // Create FormData to send to Google Apps Script
+      // Create FormData to send to Google Apps Script (includes both casing variants for library compatibility)
       const formBody = new URLSearchParams();
-      formBody.append('name', formData.name.trim());
-      formBody.append('email', formData.email.trim());
-      formBody.append('message', formData.message.trim());
+      const nameVal = formData.name.trim();
+      const emailVal = formData.email.trim();
+      const subjectVal = formData.subject.trim() || 'Inquiry from Profile Website';
+      const messageVal = formData.message.trim();
+      const timeVal = new Date().toLocaleString();
+
+      formBody.append('name', nameVal);
+      formBody.append('Name', nameVal);
+      formBody.append('email', emailVal);
+      formBody.append('Email', emailVal);
+      formBody.append('subject', subjectVal);
+      formBody.append('Subject', subjectVal);
+      formBody.append('message', messageVal);
+      formBody.append('Message', messageVal);
+      formBody.append('timestamp', timeVal);
+      formBody.append('Timestamp', timeVal);
       
       // The Web App URL
       const scriptURL = 'https://script.google.com/macros/s/AKfycbwDatNxPbwDeaiHz3uLDQanrqkQss2xh_Py7FQ3pk-ntO6lrjykjr3IQYR7PNOJOfdb/exec';
