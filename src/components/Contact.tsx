@@ -52,6 +52,7 @@ export function Contact({ profile, onSendMessage }: ContactProps) {
       await fetch(scriptURL, {
         method: 'POST',
         body: formBody,
+        mode: 'no-cors',
       });
 
       // Still save locally for the Admin Dashboard to see
