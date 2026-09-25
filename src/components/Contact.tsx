@@ -25,26 +25,48 @@ export function Contact({ profile, onSendMessage }: ContactProps) {
     message: '',
   });
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
       setError('Please fill in your name, email, and message.');
       return;
     }
 
+    setIsSubmitting(true);
+    setError(null);
+
     try {
+      // Create FormData to send to Google Apps Script
+      const formBody = new URLSearchParams();
+      formBody.append('name', formData.name.trim());
+      formBody.append('email', formData.email.trim());
+      formBody.append('message', formData.message.trim());
+      
+      // The Web App URL
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbwDatNxPbwDeaiHz3uLDQanrqkQss2xh_Py7FQ3pk-ntO6lrjykjr3IQYR7PNOJOfdb/exec';
+      
+      // POST to Google Sheets
+      await fetch(scriptURL, {
+        method: 'POST',
+        body: formBody,
+      });
+
+      // Still save locally for the Admin Dashboard to see
       onSendMessage({
         name: formData.name.trim(),
         email: formData.email.trim(),
         subject: formData.subject.trim() || 'Inquiry from Profile Website',
         message: formData.message.trim(),
       });
+      
       setSubmitted(true);
-      setError(null);
-    } catch {
-      setError('Unable to save message locally.');
+    } catch (err) {
+      setError('Unable to send message to the spreadsheet. Please try emailing directly.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -301,10 +323,24 @@ export function Contact({ profile, onSendMessage }: ContactProps) {
                   <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
                     <button
                       type="submit"
-                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-[#0F766E] hover:bg-[#0c625c] text-white font-semibold text-xs transition-all shadow-xs cursor-pointer"
+                      disabled={isSubmitting}
+                      className={`w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-semibold text-xs transition-all shadow-xs ${
+                        isSubmitting 
+                          ? 'bg-[#0F766E]/70 text-white cursor-not-allowed' 
+                          : 'bg-[#0F766E] hover:bg-[#0c625c] text-white cursor-pointer'
+                      }`}
                     >
-                      <Send className="w-3.5 h-3.5" />
-                      <span>Send Message (Save Locally)</span>
+                      {isSubmitting ? (
+                        <>
+                          <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                          <span>Sending...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Send className="w-3.5 h-3.5" />
+                          <span>Send Message</span>
+                        </>
+                      )}
                     </button>
 
                     <button
