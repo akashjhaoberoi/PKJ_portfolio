@@ -110,8 +110,13 @@ export function Footer({ profile, onOpenAdmin, onOpenCV }: FooterProps) {
 
         {/* Bottom bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
-          <div>
-            © {currentYear} {profile.fullName || 'Prakash Kumar Jha'}. All rights reserved.
+          <div className="space-y-1">
+            <div>
+              © {currentYear} {profile.fullName || 'Prakash Kumar Jha'}. All rights reserved.
+            </div>
+            <div className="text-[11px] text-slate-400/80">
+              © {currentYear} Designed And Developed By Akarika Technologies Pvt Ltd. All rights reserved.
+            </div>
           </div>
           
           <button
