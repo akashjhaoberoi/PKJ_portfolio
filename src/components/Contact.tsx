@@ -213,16 +213,16 @@ export function Contact({ profile, onSendMessage }: ContactProps) {
                     Send a Message
                   </h3>
                   <p className="text-xs text-[#64748B] dark:text-slate-400 mt-0.5">
-                    Messages are stored locally and can also be opened directly in your email client.
+                    Messages are sent directly to Google Sheets and stored locally in the admin inbox.
                   </p>
                 </div>
               </div>
 
-              {/* Informational callout as explicitly requested in prompt */}
+              {/* Informational callout */}
               <div className="mb-5 p-3 rounded-xl bg-[#E6F4F1] dark:bg-teal-950/40 border border-[#0F766E]/20 dark:border-teal-900/60 text-xs text-[#0F766E] dark:text-teal-300 flex items-start gap-2.5">
                 <Info className="w-4 h-4 shrink-0 mt-0.5 text-[#0F766E] dark:text-teal-400" />
                 <span>
-                  Notice: This frontend application stores inquiry messages locally in your browser storage (viewable in the Admin Panel inbox). You can also click below to open your native email software.
+                  Notice: Submitting this form sends your inquiry details directly to Prakash Kumar Jha's Google Sheet.
                 </span>
               </div>
 
@@ -233,10 +233,10 @@ export function Contact({ profile, onSendMessage }: ContactProps) {
                   </div>
                   <div>
                     <h4 className="text-base font-bold text-[#0F2747] dark:text-teal-200">
-                      Message Saved Successfully!
+                      Message Sent to Google Sheet!
                     </h4>
                     <p className="text-xs text-[#0F766E] dark:text-teal-300 mt-1 max-w-md mx-auto">
-                      Your inquiry has been stored locally in the admin inbox. Would you also like to transmit this directly to Prakash Kumar Jha's email inbox?
+                      Your inquiry has been successfully recorded in the Google Sheet. You can also send a direct email if needed.
                     </p>
                   </div>
 
