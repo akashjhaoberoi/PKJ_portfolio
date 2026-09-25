@@ -1,5 +1,6 @@
 // Quota Test
 import { useState, useEffect } from 'react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { useAppData } from './hooks/useAppData';
 import { useTheme } from './hooks/useTheme';
 import { storageService } from './services/storageService';
@@ -162,6 +163,7 @@ export default function App() {
             isFullPage={true}
           />
         )}
+        <SpeedInsights />
       </div>
     );
   }
@@ -272,6 +274,8 @@ export default function App() {
         data={data}
       />
 
+      {/* Vercel Speed Insights */}
+      <SpeedInsights />
     </div>
   );
 }
